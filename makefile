@@ -2,7 +2,7 @@ CC       := gcc
 CFLAGS   := -Wall
 SRC      := ./src
 INCLUDE  := ./include
-OBJFILES := main.o navire.o quai.o
+OBJFILES := main.o navire.o quai.o port.o utils.o
 TARGET   := main
 
 all : ${TARGET} clean
@@ -18,6 +18,12 @@ navire.o : ${SRC}/main.c
 
 quai.o : ${SRC}/main.c
 	${CC} ${CFLAGS} -c ${SRC}/quai.c
+
+port.o : ${SRC}/main.c
+	${CC} ${CFLAGS} -c ${SRC}/port.c
+
+utils.o : ${SRC}/main.c
+	${CC} ${CFLAGS} -c ${SRC}/utils.c
 
 clean :
 	rm -f *~ *.o
