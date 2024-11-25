@@ -13,13 +13,6 @@
 #define HauteurFenetre 768
 
 int main(int argc, char **argv) {
-    TYPE_NAVIRE types_autorises[] = {NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER};
-    Port * port1 = createNewPort(1, "Toulon", 20);
-    Quai * quai1 = createNewDock(1, 30, 50, types_autorises, 3);
-
-    addDock(port1, quai1);
-    showAllDockedShips(port1->docks);
-
 	initialiseGfx(argc, argv);
 	prepareFenetreGraphique("Marine Management", LargeurFenetre, HauteurFenetre);
 	lanceBoucleEvenements();
@@ -27,8 +20,13 @@ int main(int argc, char **argv) {
 }
 
 void gestionEvenement(EvenementGfx evenement) {
+    static TYPE_NAVIRE types_autorises[] = {NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER};
+    static Port * port1 = NULL;
+    static Quai * quai1 = NULL;
 	switch (evenement) {
         case Initialisation:
+            port1 = createNewPort(1, "Toulon", 20);
+            quai1 = createNewDock(1, 30, 50, types_autorises, 3);
             demandeTemporisation(0);
             break;
         case Temporisation:
@@ -36,6 +34,21 @@ void gestionEvenement(EvenementGfx evenement) {
             break;
         case Affichage:
             effaceFenetre(0, 152, 182);
+
+            couleurCourante(0, 0, 255);
+            roundRect(10, 10, 300, 300, 5);
+
+            couleurCourante(128, 128, 128);
+            rectangle(0, hauteurFenetre(), largeurFenetre(), hauteurFenetre()-60);
+            rectangle(largeurFenetre(), 0, largeurFenetre()-60, hauteurFenetre());
+            roundRect(350, 0, largeurFenetre(), 60, 5);
+
+            couleurCourante(255, 255, 255);
+
+            for(int i = 0; i < 4; i++) {
+                roundRect(20+(i*40), 20, 30, 30, 2);
+            }
+
             break;
         case Clavier:
         	switch (caractereClavier()) {
