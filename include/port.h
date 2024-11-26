@@ -4,16 +4,12 @@
 #include "navire.h"
 #include "quai.h"
 
-typedef struct ZoneDeMouillage {
-    int max_ships;
-    Navire * waiting;
-} ZoneDeMouillage;
-
 typedef struct Port {
     int id;
     char * name;
     Quai * docks;
-    ZoneDeMouillage * waiting_zone;
+    int max_ships_waiting_zone;
+    Navire * waiting_zone;
 } Port;
 
 Port * createNewPort(int id, char * name, int max_waiting_zone);

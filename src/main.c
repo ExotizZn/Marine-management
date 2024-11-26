@@ -24,22 +24,28 @@ void gestionEvenement(EvenementGfx evenement) {
     static TYPE_NAVIRE types_autorises[] = {NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER};
     static Port * port1 = NULL;
     static Quai * quai1 = NULL;
+    static bool isMouillageOpen = false;
+
 	switch (evenement) {
         case Initialisation:
             port1 = createNewPort(1, "Toulon", 20);
             quai1 = createNewDock(1, 30, 50, types_autorises, 3);
+            addShipToWaitingZone(port1, initializeShip(1, NAVIRE_PASSAGERS, 200));
+            addShipToWaitingZone(port1, initializeShip(2, NAVIRE_MARCHANDISE, 200));
+            addShipToWaitingZone(port1, initializeShip(3, PETROLIER, 200));
+            addShipToWaitingZone(port1, initializeShip(4, YATCH, 200));
             demandeTemporisation(0);
             break;
         case Temporisation:
             rafraichisFenetre();
             break;
         case Affichage:
-            effaceFenetre(0, 152, 182);
+            effaceFenetre(0, 173, 181);
 
-            couleurCourante(0, 0, 255);
-            roundRect(10, 10, 300, 300, 5);
+            couleurCourante(63, 114, 175);
+            roundRect(10, 10, 250, 250, 5);
 
-            couleurCourante(128, 128, 128);
+            couleurCourante(34, 40, 49);
             rectangle(0, hauteurFenetre(), largeurFenetre(), hauteurFenetre()-60);
             rectangle(largeurFenetre(), 0, largeurFenetre()-60, hauteurFenetre());
             roundRect(350, 0, largeurFenetre(), 60, 5);
@@ -57,14 +63,11 @@ void gestionEvenement(EvenementGfx evenement) {
                 rectangle(400+(i*300),240,610+(i*300),250);
                 rectangle(400+(i*300),140,610+(i*300),150);
             }
+
             couleurCourante(255,0,0);
             dessineTexte("ABCDEFGHIJKLMNOPQRSTUVWXYZ",100,100,1);
 
-            couleurCourante(255, 255, 255);
-
-            for(int i = 0; i < 4; i++) {
-                roundRect(20+(i*40), 20, 30, 30, 2);
-            }
+            afficherZoneMouillage(port1);
 
             break;
         case Clavier:
