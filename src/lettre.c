@@ -27,12 +27,17 @@ void dessineLettre(char lettre, float x, float y, float taille) {
             break;
 
         case 'B':
-            // Barre gauche
+           
             ligne(x, y, x, y + hauteur);
             ligne(x,y+hauteur,x+2*largeur/3,y+hauteur);
             ligne(x+2*largeur/3,y+hauteur,x+largeur,y+5*hauteur/6);
             ligne(x+largeur,y+5*hauteur/6,x+largeur,y+4*hauteur/6);
-            ligne(x+largeur,y+4*hauteur/6,x+2*largeur/3,y+hauteur/3);
+            ligne(x+largeur,y+4*hauteur/6,x+2*largeur/3,y+hauteur/2);
+            ligne(x+2*largeur/3,y+hauteur/2,x+largeur,y+2*hauteur/6);
+            ligne(x+largeur,y+2*hauteur/6,x+largeur,y+1*hauteur/6);
+            ligne(x+largeur,y+1*hauteur/6,x+2*largeur/3,y);
+            ligne(x+2*largeur/3,y,x,y);
+            ligne(x+2*largeur/3,y+hauteur/2,x,y+hauteur/2);
             break;
 
         case 'C':
@@ -48,11 +53,13 @@ void dessineLettre(char lettre, float x, float y, float taille) {
             // Barre gauche
             ligne(x, y, x, y + hauteur);
             // Barre supérieure
-            ligne(x, y + hauteur, x + largeur, y + hauteur);
-            // Barre inférieure
-            ligne(x, y, x + largeur, y);
-            // Courbe droite (approximée par une ligne droite)
-            ligne(x + largeur, y, x + largeur, y + hauteur);
+            ligne(x, y + hauteur, x + 2*largeur/3, y + hauteur);
+            ligne(x+2*largeur/3,y+hauteur,x+largeur,y+5*hauteur/6);
+            ligne(x+largeur,y+5*hauteur/6,x+largeur,y+1*hauteur/6);
+            ligne(x+largeur,y+1*hauteur/6,x+2*largeur/3,y);
+            ligne(x, y, x + 2*largeur/3, y);
+            
+            
             break;
 
         case 'E':
@@ -97,14 +104,14 @@ void dessineLettre(char lettre, float x, float y, float taille) {
 
         case 'I':
             // Barre centrale
-            ligne(x + largeur / 3, y, x + largeur / 3, y + hauteur);
+            ligne(x + largeur / 2, y, x + largeur / 2, y + hauteur);
             break;
 
         case 'J':
             // Barre verticale droite
-            ligne(x + largeur * 2 / 3, y, x + largeur * 2 / 3, y + hauteur);
-            // Barre inférieure
-            ligne(x, y, x + largeur, y);
+            ligne(x+largeur,y+hauteur,x+largeur,y+1*hauteur/6);
+            ligne(x+largeur,y+1*hauteur/6,x+2*largeur/3,y);
+            ligne(x+2*largeur/3, y, x, y);
             break;
 
         case 'K':
