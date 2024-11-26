@@ -8,6 +8,7 @@
 #include "../include/quai.h"
 #include "../include/port.h"
 #include "../include/utils.h"
+#include "../include/lettre.h"
 
 #define LargeurFenetre 1366
 #define HauteurFenetre 768
@@ -42,6 +43,22 @@ void gestionEvenement(EvenementGfx evenement) {
             rectangle(0, hauteurFenetre(), largeurFenetre(), hauteurFenetre()-60);
             rectangle(largeurFenetre(), 0, largeurFenetre()-60, hauteurFenetre());
             roundRect(350, 0, largeurFenetre(), 60, 5);
+
+            for(int i=0; i<3; i++){
+                rectangle(500+(i*300),hauteurFenetre()-60,510+(i*300),hauteurFenetre()-350);
+                rectangle(400+(i*300),hauteurFenetre()-340,610+(i*300),hauteurFenetre()-350);
+                rectangle(400+(i*300),hauteurFenetre()-240,610+(i*300),hauteurFenetre()-250);
+                rectangle(400+(i*300),hauteurFenetre()-140,610+(i*300),hauteurFenetre()-150);
+            }
+
+            for(int i=0; i<3; i++){
+                rectangle(500+(i*300),60,510+(i*300),350);
+                rectangle(400+(i*300),340,610+(i*300),350);
+                rectangle(400+(i*300),240,610+(i*300),250);
+                rectangle(400+(i*300),140,610+(i*300),150);
+            }
+            couleurCourante(255,0,0);
+            dessineTexte("ABCDEFGHIJKLMNOPQRSTUVWXYZ",100,100,1);
 
             couleurCourante(255, 255, 255);
 
