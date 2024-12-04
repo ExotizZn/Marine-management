@@ -20,5 +20,6 @@ void dockingAShip(Quai * dock, Navire * ship);
 void removeDockedShip(Quai * dock, int id);
 void showAllDockedShips(Quai * dock);
 void showAllWaitingShips(Quai * dock);
+void afficheQuai(Quai * dock, int x, int y);
 
 #endif

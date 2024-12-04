@@ -20,7 +20,7 @@ Port * createNewPort(int id, char * name, int max_waiting_zone) {
 }
 
 void addDock(Port * port, Quai * dock) {
-    if(!dock || !port) return;
+    if(!port || !dock) return;
 
     if(port->docks == NULL) {
         port->docks = dock;
@@ -28,7 +28,7 @@ void addDock(Port * port, Quai * dock) {
     }
 
     Quai * temp = port->docks;
-    while(temp){
+    while(temp->next){
         temp = temp->next;
     }
 
@@ -51,6 +51,20 @@ void addShipToWaitingZone(Port * port, Navire* ship) {
         ship->next = NULL;
         temp->next = ship;
     }
+}
+
+Quai * getDockById(Port * port, int id) {
+    if(!port) return NULL;
+
+    Quai * current = port->docks;
+
+    while(current && current->dock_number != id) {
+        current = current->next;
+    }
+
+    if(!current) return NULL;
+
+    return current;
 }
 
 void afficherZoneMouillage(Port * port) {

@@ -9,6 +9,7 @@
 #include "../include/port.h"
 #include "../include/utils.h"
 #include "../include/lettre.h"
+#include "../include/textureLoader.h"
 
 #define LargeurFenetre 1366
 #define HauteurFenetre 768
@@ -21,19 +22,37 @@ int main(int argc, char **argv) {
 }
 
 void gestionEvenement(EvenementGfx evenement) {
-    static TYPE_NAVIRE types_autorises[] = {NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER};
+    static TYPE_NAVIRE types_autorises[] = { NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER };
+    static TYPE_NAVIRE types_autorises2[] = { NAVIRE_PASSAGERS, YATCH };
     static Port * port1 = NULL;
-    static Quai * quai1 = NULL;
-    static bool isMouillageOpen = false;
 
 	switch (evenement) {
         case Initialisation:
             port1 = createNewPort(1, "Toulon", 20);
-            quai1 = createNewDock(1, 30, 50, types_autorises, 3);
+            addDock(port1, createNewDock(1, 30, 50, types_autorises, 42));
+            addDock(port1, createNewDock(2, 30, 50, types_autorises2, 42));
+
             addShipToWaitingZone(port1, initializeShip(1, NAVIRE_PASSAGERS, 200));
             addShipToWaitingZone(port1, initializeShip(2, NAVIRE_MARCHANDISE, 200));
             addShipToWaitingZone(port1, initializeShip(3, PETROLIER, 200));
             addShipToWaitingZone(port1, initializeShip(4, YATCH, 200));
+
+            dockingAShip(getDockById(port1, 1), initializeShip(5, NAVIRE_PASSAGERS, 200));
+            dockingAShip(getDockById(port1, 1), initializeShip(6, PETROLIER, 200));
+            dockingAShip(getDockById(port1, 1), initializeShip(7, NAVIRE_MARCHANDISE, 200));
+            dockingAShip(getDockById(port1, 1), initializeShip(8, NAVIRE_PASSAGERS, 200));
+            dockingAShip(getDockById(port1, 1), initializeShip(9, NAVIRE_PASSAGERS, 200));
+            dockingAShip(getDockById(port1, 1), initializeShip(10, NAVIRE_PASSAGERS, 200));
+            dockingAShip(getDockById(port1, 1), initializeShip(11, NAVIRE_MARCHANDISE, 200));
+
+            dockingAShip(getDockById(port1, 2), initializeShip(14, YATCH, 200));
+            dockingAShip(getDockById(port1, 2), initializeShip(15, NAVIRE_PASSAGERS, 200));
+            dockingAShip(getDockById(port1, 2), initializeShip(16, YATCH, 200));
+            dockingAShip(getDockById(port1, 2), initializeShip(17, NAVIRE_PASSAGERS, 200));
+            dockingAShip(getDockById(port1, 2), initializeShip(14, YATCH, 200));
+            dockingAShip(getDockById(port1, 2), initializeShip(15, NAVIRE_PASSAGERS, 200));
+            dockingAShip(getDockById(port1, 2), initializeShip(16, YATCH, 200));
+
             demandeTemporisation(0);
             break;
         case Temporisation:
@@ -50,22 +69,13 @@ void gestionEvenement(EvenementGfx evenement) {
             rectangle(largeurFenetre(), 0, largeurFenetre()-60, hauteurFenetre());
             roundRect(350, 0, largeurFenetre(), 60, 5);
 
-            for(int i=0; i<3; i++){
-                rectangle(500+(i*300),hauteurFenetre()-60,510+(i*300),hauteurFenetre()-350);
-                rectangle(400+(i*300),hauteurFenetre()-340,610+(i*300),hauteurFenetre()-350);
-                rectangle(400+(i*300),hauteurFenetre()-240,610+(i*300),hauteurFenetre()-250);
-                rectangle(400+(i*300),hauteurFenetre()-140,610+(i*300),hauteurFenetre()-150);
-            }
+            afficheQuai(getDockById(port1, 1), 500, 65);
+            afficheQuai(getDockById(port1, 2), 800, 65);
+/*          afficheQuai(getDockById(port1, 3), 1100, 65);
 
-            for(int i=0; i<3; i++){
-                rectangle(500+(i*300),60,510+(i*300),350);
-                rectangle(400+(i*300),340,610+(i*300),350);
-                rectangle(400+(i*300),240,610+(i*300),250);
-                rectangle(400+(i*300),140,610+(i*300),150);
-            }
-
-            couleurCourante(255,0,0);
-            dessineTexte("ABCDEFGHIJKLMNOPQRSTUVWXYZ",100,100,1);
+            afficheQuai(getDockById(port1, 4), 500, 425);
+            afficheQuai(getDockById(port1, 5), 800, 425);
+            afficheQuai(getDockById(port1, 6), 1100, 425); */
 
             afficherZoneMouillage(port1);
 

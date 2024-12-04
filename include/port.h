@@ -15,5 +15,7 @@ typedef struct Port {
 Port * createNewPort(int id, char * name, int max_waiting_zone);
 void addDock(Port * port, Quai * dock);
 void addShipToWaitingZone(Port * port, Navire* ship);
+void afficherZoneMouillage(Port * port);
+Quai * getDockById(Port * port, int id);
 
 #endif

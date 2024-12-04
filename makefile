@@ -2,7 +2,7 @@ CC       := gcc
 CFLAGS   := -Wall
 SRC      := ./src
 INCLUDE  := ./include
-OBJFILES := main.o navire.o quai.o port.o utils.o lettre.o
+OBJFILES := main.o navire.o quai.o port.o utils.o lettre.o textureLoader.o
 TARGET   := main
 
 all : ${TARGET} clean
@@ -27,6 +27,9 @@ utils.o : ${SRC}/main.c
 
 lettre.o : ${SRC}/main.c
 	${CC} ${CFLAGS} -c ${SRC}/lettre.c
+
+textureLoader.o : ${SRC}/main.c
+	${CC} ${CFLAGS} -c ${SRC}/textureLoader.c
 
 
 clean :

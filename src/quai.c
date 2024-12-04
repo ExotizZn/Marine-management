@@ -3,8 +3,11 @@
 #include <string.h>
 #include <stdbool.h>
 
+#include "../GfxLib/GfxLib.h"
+
 #include "../include/quai.h"
 #include "../include/navire.h"
+#include "../include/utils.h"
 
 Quai * createNewDock(int dock_number, int dock_size, float dock_depth, TYPE_NAVIRE * authorized_ships, int max_ships) {
     Quai * new = malloc(sizeof(Quai));
@@ -121,5 +124,65 @@ void showAllWaitingShips(Quai * dock) {
     while(current) {
         printf("Id : %d | Type : %d | Status : %d | Capacity : %.2f\n", current->id, current->type, current->status, current->capacity);
         current = current->next;
+    }
+}
+
+void shipColor(TYPE_NAVIRE type) {
+    switch(type) {
+        case NAVIRE_PASSAGERS : 
+            couleurCourante(255, 0, 0);
+            break;
+        case NAVIRE_MARCHANDISE :
+            couleurCourante(0, 255, 0);
+            break;
+        case PETROLIER :
+            couleurCourante(0, 255, 255);
+            break;
+        case YATCH :
+            couleurCourante(255, 255, 0);
+            break;
+    }
+}
+
+void afficheQuai(Quai * dock, int x, int y) {
+    if(!dock) return;
+
+    Navire * current = dock->docked;
+    
+    int gapY = 100;
+
+    couleurCourante(34, 40, 49);
+    rectangle(x, y-5, x+10 , y+290);
+
+    for(int j = 0; j < 4; j++){
+        roundRect(x-100, y-15+gapY*j, 210, 10, 2);
+    }
+
+    for(int z = 0; z < 2; z++) {
+        for(int e = 0; e < 3; e++) {
+            if(!current) return;
+            for(int j = 0; j < 3; j++) {
+                if(!current) return;
+                shipColor(current->type);
+                triangle(x-90+(j*30)+z*110, y+(e*gapY), x-80+(j*30)+z*110, y+20+(e*gapY), x-70+(j*30)+z*110, y+(e*gapY));
+                current = current->next;
+            }
+
+            for(int j = 0; j < 3; j++) {
+                if(!current) return;
+                shipColor(current->type);
+                triangle(x-90+(j*30)+z*110, y+60+(e*gapY), x-80+(j*30)+z*110, y+80+(e*gapY), x-70+(j*30)+z*110, y+60+(e*gapY));
+                current = current->next;
+            }
+
+            if(!current) return;
+            shipColor(current->type);
+            triangle(x-30, y+30+(e*gapY), x-20, y+50+(e*gapY), x-10, y+30+(e*gapY));
+            current = current->next;
+            if(!current) return;
+            shipColor(current->type);
+            triangle(x+20, y+30+(e*gapY), x+30, y+50+(e*gapY), x+40, y+30+(e*gapY));
+            current = current->next;
+        }
     }
 }
