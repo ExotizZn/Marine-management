@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
-
+#include "../include/utils.h"
 #include "../include/navire.h"
 #include "../include/port.h"
 #include "../GfxLib/GfxLib.h"
@@ -179,43 +179,42 @@ void verifierClicSurBateau(Port *port, int px, int py) {
 
 void afficherInfosBateau(Port *port) {
     if (!port || !port->selected_ship) {
-        return; // Pas de bateau sélectionné, ne rien afficher
+        return; 
     }
 
-    // Coordonnées et dimensions du rectangle
-    float rect_x = 20;   // Aligné avec la zone de mouillage
-    float rect_y = 450;  // Positionné au-dessus de la zone de mouillage
-    float rect_width = 300;
-    float rect_height = 120;
+    float rect_x = 10;  
+    float rect_y = 400;  
+    float rect_width = 250; 
+    float rect_height = 150; 
+    int corner_radius = 10;  
 
-    // Dessiner le rectangle (fond clair)
-    couleurCourante(230, 230, 255); // Couleur de fond (bleu pâle)
-    rectangle(rect_x, rect_y, rect_x + rect_width, rect_y + rect_height);
+    
+    couleurCourante(255, 255, 255); 
+    roundRect(rect_x, rect_y, rect_width, rect_height, corner_radius);
 
-    // Dessiner le contour
-    couleurCourante(255, 255, 255); // Couleur du contour (bleu foncé)
-    epaisseurDeTrait(2);        // Épaissir le trait pour le contour
-    rectangle(rect_x, rect_y, rect_x + rect_width, rect_y + rect_height);
+    
+    couleurCourante(255, 255, 255); 
+    epaisseurDeTrait(2);      
+    roundRect(rect_x, rect_y, rect_width, rect_height, corner_radius);
 
-    // Texte formaté
-    couleurCourante(0, 0, 0); // Texte noir
+    couleurCourante(0, 0, 0); 
     char buffer[128];
 
-    // Titre
+
     sprintf(buffer, "Informations du bateau :");
-    afficheChaine(buffer, 16, rect_x + 10, rect_y + rect_height - 20);
+    afficheChaine(buffer, 16, rect_x + 15, rect_y + rect_height - 25);
 
-    // ID
-    sprintf(buffer, "ID: %d", port->selected_ship->id);
-    afficheChaine(buffer, 14, rect_x + 10, rect_y + rect_height - 40);
+    sprintf(buffer, "ID : %d", port->selected_ship->id);
+    afficheChaine(buffer, 14, rect_x + 15, rect_y + rect_height - 50);
 
-    // Type
-    sprintf(buffer, "Type: %s", obtenirNomTypeNavire(port->selected_ship->type));
-    afficheChaine(buffer, 14, rect_x + 10, rect_y + rect_height - 60);
+    sprintf(buffer, "Type : %s", obtenirNomTypeNavire(port->selected_ship->type));
+    afficheChaine(buffer, 14, rect_x + 15, rect_y + rect_height - 75);
 
-    // Capacité
-    sprintf(buffer, "Capacité: %2.f", port->selected_ship->capacity);
-    afficheChaine(buffer, 14, rect_x + 10, rect_y + rect_height - 80);
+    sprintf(buffer, "Capacité : %.2f", port->selected_ship->capacity);
+    afficheChaine(buffer, 14, rect_x + 15, rect_y + rect_height - 100);
+
+    sprintf(buffer, "Statut : %d", port->selected_ship->status);
+    afficheChaine(buffer, 14, rect_x + 15, rect_y + rect_height - 125);
 }
 
 
