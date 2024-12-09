@@ -31,6 +31,5 @@ lettre.o : ${SRC}/main.c
 textureLoader.o : ${SRC}/main.c
 	${CC} ${CFLAGS} -c ${SRC}/textureLoader.c
 
-
 clean :
 	rm -f *~ *.o

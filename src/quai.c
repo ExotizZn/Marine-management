@@ -24,6 +24,7 @@ Quai * createNewDock(int dock_number, int dock_size, float dock_depth, TYPE_NAVI
     new->max_ships = max_ships;
     new->docked = NULL;
     new->waiting = NULL;
+    new->next = NULL;
 
     return new;
 }

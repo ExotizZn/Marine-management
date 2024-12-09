@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
+
 #include "../include/navire.h"
 #include "../include/port.h"
 #include "../GfxLib/GfxLib.h"

@@ -23,5 +23,4 @@ void afficherInfosBateau(Port *port);
 bool isPointInTriangle(float px, float py, float x1, float y1, float x2, float y2, float x3, float y3);
 const char* obtenirNomTypeNavire(int type);
 
-
 #endif
