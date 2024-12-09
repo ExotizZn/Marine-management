@@ -1,5 +1,6 @@
 #ifndef PORT_H
 #define PORT_H
+
 #include <stdbool.h>
 #include "navire.h"
 #include "quai.h"
@@ -22,5 +23,7 @@ void verifierClicSurBateau(Port *port, int px, int py);
 void afficherInfosBateau(Port *port);
 bool isPointInTriangle(float px, float py, float x1, float y1, float x2, float y2, float x3, float y3);
 const char* obtenirNomTypeNavire(int type);
+void savePortState(Port *port, const char *filename);
+Port *loadPortState(const char *filename);
 
 #endif

@@ -17,6 +17,7 @@ Port * createNewPort(int id, char * name, int max_waiting_zone) {
     new->docks = NULL;
     new->max_ships_waiting_zone = max_waiting_zone;
     new->waiting_zone = NULL;
+    new->selected_ship = NULL;
 
     return new;
 }
@@ -123,7 +124,6 @@ void verifierClicSurBateau(Port *port, int px, int py) {
         float y3 = y1;
 
         if (isPointInTriangle(px, py, x1, y1, x2, y2, x3, y3)) {
-            printf("Bateau sélectionné dans la zone de mouillage : ID=%d\n", currentNavire->id);
             port->selected_ship = currentNavire; // Met à jour le bateau sélectionné
             return;
         }
@@ -174,7 +174,6 @@ void verifierClicSurBateau(Port *port, int px, int py) {
 
     // Si aucun bateau n'est trouvé, désélectionne
     port->selected_ship = NULL;
-    printf("Aucun bateau trouvé aux coordonnées (%d, %d).\n", px, py);
 }
 
 void afficherInfosBateau(Port *port) {
@@ -240,4 +239,117 @@ const char* obtenirNomTypeNavire(int type) {
         default:
             return "Type inconnu";
     }
+}
+
+void savePortState(Port *port, const char *filename) {
+    if (!port || !filename)
+        return;
+
+    FILE *file = fopen(filename, "wb");
+    if (!file)
+    {
+        perror("Erreur d'ouverture du fichier pour sauvegarde");
+        return;
+    }
+
+    fprintf(file, "%d %s %d\n", port->id, port->name, port->max_ships_waiting_zone);
+
+    Quai *current_dock = port->docks;
+    while (current_dock)
+    {
+        fprintf(file, "Q\n%d %d %f %d\n",
+                current_dock->dock_number,
+                current_dock->dock_size,
+                current_dock->dock_depth,
+                current_dock->max_ships);
+        fwrite(current_dock->authorized_ships, sizeof(TYPE_NAVIRE), 4, file);      
+        Navire *current = current_dock->docked;
+        while (current)
+        {
+            fprintf(file, "N\n%d %d %d %f\n",
+                    current->id,
+                    current->type,
+                    current->status,
+                    current->capacity);
+            current = current->next;
+        }
+        current_dock = current_dock->next;
+    }
+
+    Navire *current_ship = port->waiting_zone;
+    while (current_ship)
+    {
+        fprintf(file, "M\n%d %d %f\n",
+                current_ship->id,
+                current_ship->type,
+                current_ship->capacity);
+        current_ship = current_ship->next;
+    }
+
+    fclose(file);
+}
+
+Port *loadPortState(const char *filename) {
+    if (!filename)
+        return NULL;
+
+    FILE *file = fopen(filename, "rb");
+    if (!file) {
+        perror("Erreur d'ouverture du fichier");
+        return NULL;
+    }
+
+    char name_buffer[128];
+    int id, max;
+    if (fscanf(file, "%d %s %d", &id, name_buffer, &max) != 3) {
+        fclose(file);
+        fprintf(stderr, "Erreur : format incorrect en tête du fichier\n");
+        return NULL;
+    }
+
+    Port *port = createNewPort(id, name_buffer, max);
+    if (!port) {
+        fclose(file);
+        fprintf(stderr, "Erreur : allocation mémoire échouée pour le port\n");
+        return NULL;
+    }
+
+    char type;
+    int dock_number;
+    while (fscanf(file, " %c", &type) != EOF){
+        if (type == 'Q') {
+            int dock_size, max_ships;
+            float dock_depth;
+            if (fscanf(file, "%d %d %f %d", &dock_number, &dock_size, &dock_depth, &max_ships) != 4){
+                fprintf(stderr, "Erreur : format incorrect pour les quais\n");
+                fclose(file);
+                return NULL;
+            }
+            TYPE_NAVIRE types_autorises[] = { NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER, YATCH };
+            Quai *dock = createNewDock(dock_number, dock_size, dock_depth, types_autorises, max_ships);
+            addDock(port, dock);
+        } else if (type == 'N'){
+            int ship_id, ship_type, ship_status;
+            float ship_capacity;
+            if (fscanf(file, "%d %d %d %f", &ship_id, &ship_type, &ship_status, &ship_capacity) != 4){
+                fprintf(stderr, "Erreur : format incorrect pour les navires\n");
+                fclose(file);
+                return NULL;
+            }
+            dockingAShip(getDockById(port, dock_number), initializeShip(ship_id, ship_type, ship_capacity));
+        } else if (type == 'M') {
+            int ship_id, ship_type;
+            float ship_capacity;
+            if (fscanf(file, "%d %d %f", &ship_id, &ship_type, &ship_capacity) != 3) {
+                fprintf(stderr, "Erreur : format incorrect pour la zone de mouillage\n");
+                fclose(file);
+                return NULL;
+            }
+            Navire *ship = initializeShip(ship_id, ship_type, ship_capacity);
+            addShipToWaitingZone(port, ship);
+        }
+    }
+
+    fclose(file);
+    return port;
 }

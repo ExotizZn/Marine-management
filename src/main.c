@@ -29,29 +29,6 @@ void gestionEvenement(EvenementGfx evenement) {
 	switch (evenement) {
         case Initialisation:
             port1 = createNewPort(1, "Toulon", 20);
-            addDock(port1, createNewDock(1, 30, 50, types_autorises, 42));
-            addDock(port1, createNewDock(2, 30, 50, types_autorises2, 42));
-
-            addShipToWaitingZone(port1, initializeShip(1, NAVIRE_PASSAGERS, 200));
-            addShipToWaitingZone(port1, initializeShip(2, NAVIRE_MARCHANDISE, 200));
-            addShipToWaitingZone(port1, initializeShip(3, PETROLIER, 200));
-            addShipToWaitingZone(port1, initializeShip(4, YATCH, 200));
-
-            dockingAShip(getDockById(port1, 1), initializeShip(5, NAVIRE_PASSAGERS, 200));
-            dockingAShip(getDockById(port1, 1), initializeShip(6, PETROLIER, 200));
-            dockingAShip(getDockById(port1, 1), initializeShip(7, NAVIRE_MARCHANDISE, 200));
-            dockingAShip(getDockById(port1, 1), initializeShip(8, NAVIRE_PASSAGERS, 200));
-            dockingAShip(getDockById(port1, 1), initializeShip(9, NAVIRE_PASSAGERS, 200));
-            dockingAShip(getDockById(port1, 1), initializeShip(10, NAVIRE_PASSAGERS, 200));
-            dockingAShip(getDockById(port1, 1), initializeShip(11, NAVIRE_MARCHANDISE, 200));
-
-            dockingAShip(getDockById(port1, 2), initializeShip(14, YATCH, 200));
-            dockingAShip(getDockById(port1, 2), initializeShip(15, NAVIRE_PASSAGERS, 200));
-            dockingAShip(getDockById(port1, 2), initializeShip(16, YATCH, 200));
-            dockingAShip(getDockById(port1, 2), initializeShip(17, NAVIRE_PASSAGERS, 200));
-            dockingAShip(getDockById(port1, 2), initializeShip(14, YATCH, 200));
-            dockingAShip(getDockById(port1, 2), initializeShip(15, NAVIRE_PASSAGERS, 200));
-            dockingAShip(getDockById(port1, 2), initializeShip(16, YATCH, 200));
 
             demandeTemporisation(0);
             break;
@@ -71,11 +48,11 @@ void gestionEvenement(EvenementGfx evenement) {
 
             afficheQuai(getDockById(port1, 1), 500, 65);
             afficheQuai(getDockById(port1, 2), 800, 65);
-/*          afficheQuai(getDockById(port1, 3), 1100, 65);
+            afficheQuai(getDockById(port1, 3), 1100, 65);
 
             afficheQuai(getDockById(port1, 4), 500, 425);
             afficheQuai(getDockById(port1, 5), 800, 425);
-            afficheQuai(getDockById(port1, 6), 1100, 425); */
+            afficheQuai(getDockById(port1, 6), 1100, 425);
 
             afficherZoneMouillage(port1);
             afficherInfosBateau(port1);
@@ -87,6 +64,53 @@ void gestionEvenement(EvenementGfx evenement) {
 				case 'q':
 					termineBoucleEvenements();
 					break;
+                case 'S':
+                case 's':
+                    savePortState(port1, "port_state.data");
+                    break;
+                case 'R':
+                case 'r':
+                    free(port1->docks);
+                    free(port1->waiting_zone);
+                    free(port1->selected_ship);
+                    port1->docks = NULL;
+                    port1->waiting_zone = NULL;
+                    port1->selected_ship = NULL;
+                    break;
+                case 'L':
+                case 'l':
+                    free(port1->docks);
+                    free(port1->waiting_zone);
+                    free(port1);
+                    port1 = NULL;
+                    port1 = loadPortState("port_state.data");
+                    break;
+                case 'D':
+                case 'd':
+                    addDock(port1, createNewDock(1, 30, 50, types_autorises, 42));
+                    addDock(port1, createNewDock(2, 30, 50, types_autorises2, 42));
+
+                    addShipToWaitingZone(port1, initializeShip(1, NAVIRE_PASSAGERS, 200));
+                    addShipToWaitingZone(port1, initializeShip(2, NAVIRE_MARCHANDISE, 200));
+                    addShipToWaitingZone(port1, initializeShip(3, PETROLIER, 200));
+                    addShipToWaitingZone(port1, initializeShip(4, YATCH, 200));
+
+                    dockingAShip(getDockById(port1, 1), initializeShip(5, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 1), initializeShip(6, PETROLIER, 200));
+                    dockingAShip(getDockById(port1, 1), initializeShip(7, NAVIRE_MARCHANDISE, 200));
+                    dockingAShip(getDockById(port1, 1), initializeShip(8, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 1), initializeShip(9, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 1), initializeShip(10, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 1), initializeShip(11, NAVIRE_MARCHANDISE, 200));
+
+                    dockingAShip(getDockById(port1, 2), initializeShip(14, YATCH, 200));
+                    dockingAShip(getDockById(port1, 2), initializeShip(15, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 2), initializeShip(16, YATCH, 200));
+                    dockingAShip(getDockById(port1, 2), initializeShip(17, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 2), initializeShip(14, YATCH, 200));
+                    dockingAShip(getDockById(port1, 2), initializeShip(15, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 2), initializeShip(16, YATCH, 200));
+                    break;
 			}
             break;
         case ClavierSpecial:
@@ -96,7 +120,6 @@ void gestionEvenement(EvenementGfx evenement) {
 				case GaucheAppuye:
                     int px = abscisseSouris();
                     int py = ordonneeSouris();
-                    printf("Clic détecté aux coordonnées : (%d, %d)\n", px, py);
                     verifierClicSurBateau(port1, px, py);
                     break;
             }
