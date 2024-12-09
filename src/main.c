@@ -78,6 +78,7 @@ void gestionEvenement(EvenementGfx evenement) {
             afficheQuai(getDockById(port1, 6), 1100, 425); */
 
             afficherZoneMouillage(port1);
+            afficherInfosBateau(port1);
 
             break;
         case Clavier:
@@ -93,6 +94,10 @@ void gestionEvenement(EvenementGfx evenement) {
         case BoutonSouris:
             switch (etatBoutonSouris()){
 				case GaucheAppuye:
+                    int px = abscisseSouris();
+                    int py = ordonneeSouris();
+                    printf("Clic détecté aux coordonnées : (%d, %d)\n", px, py);
+                    verifierClicSurBateau(port1, px, py);
                     break;
             }
             break;
