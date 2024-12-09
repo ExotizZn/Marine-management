@@ -9,7 +9,7 @@
 #include "../include/navire.h"
 #include "../include/utils.h"
 
-Quai * createNewDock(int dock_number, int dock_size, float dock_depth, TYPE_NAVIRE * authorized_ships, int max_ships) {
+Quai * createNewDock(int dock_number, int dock_size, float dock_depth, int authorized_ships, int max_ships) {
     Quai * new = malloc(sizeof(Quai));
 
     if(!new){
@@ -20,7 +20,7 @@ Quai * createNewDock(int dock_number, int dock_size, float dock_depth, TYPE_NAVI
     new->dock_number = dock_number;
     new->dock_size = dock_size;
     new->dock_depth = dock_depth;
-    memcpy(new->authorized_ships, authorized_ships, 4 * sizeof(TYPE_NAVIRE));
+    new->authorized_ships = authorized_ships;
     new->max_ships = max_ships;
     new->docked = NULL;
     new->waiting = NULL;
@@ -41,21 +41,11 @@ void addShip(Navire ** list, Navire * ship) {
     }
 }
 
-bool shipCompatibility(Quai * dock, Navire * ship) {
-    for (int i = 0; i < 4; i++) {
-        if (dock->authorized_ships[i] == ship->type) {
-            return true;
-        }
-    }
-    return false;
-}
+bool dockingAShip(Quai * dock, Navire * ship) {
+    if(!ship || !dock) return false;
 
-void dockingAShip(Quai * dock, Navire * ship) {
-    if(!ship) return;
-
-    if(!shipCompatibility(dock, ship)) {
-        printf("Navire incompatible.\n");
-        return;
+    if(dock->authorized_ships != ship->type) {
+        return false;
     }
 
     int nb_docked = 0;
@@ -69,10 +59,7 @@ void dockingAShip(Quai * dock, Navire * ship) {
         ship->status = ACCOSTE;
         ship->next = NULL;
         addShip(&(dock->docked), ship);
-    } else {
-        ship->status = EN_ATTENTE;
-        ship->next = NULL;
-        addShip(&(dock->waiting), ship);
+        return true;
     }
 }
 

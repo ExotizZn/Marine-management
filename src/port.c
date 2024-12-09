@@ -257,15 +257,15 @@ void savePortState(Port *port, const char *filename) {
     Quai *current_dock = port->docks;
     while (current_dock)
     {
-        fprintf(file, "Q\n%d %d %f %d\n",
+        fprintf(file, "Q\n%d %d %f %d %d\n",
                 current_dock->dock_number,
                 current_dock->dock_size,
                 current_dock->dock_depth,
-                current_dock->max_ships);
-        fwrite(current_dock->authorized_ships, sizeof(TYPE_NAVIRE), 4, file);      
+                current_dock->max_ships,
+                current_dock->authorized_ships);
+
         Navire *current = current_dock->docked;
-        while (current)
-        {
+        while (current) {
             fprintf(file, "N\n%d %d %d %f\n",
                     current->id,
                     current->type,
@@ -318,15 +318,14 @@ Port *loadPortState(const char *filename) {
     int dock_number;
     while (fscanf(file, " %c", &type) != EOF){
         if (type == 'Q') {
-            int dock_size, max_ships;
+            int dock_size, max_ships, authorized_ship;
             float dock_depth;
-            if (fscanf(file, "%d %d %f %d", &dock_number, &dock_size, &dock_depth, &max_ships) != 4){
+            if (fscanf(file, "%d %d %f %d %d", &dock_number, &dock_size, &dock_depth, &max_ships, &authorized_ship) != 5){
                 fprintf(stderr, "Erreur : format incorrect pour les quais\n");
                 fclose(file);
                 return NULL;
             }
-            TYPE_NAVIRE types_autorises[] = { NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER, YATCH };
-            Quai *dock = createNewDock(dock_number, dock_size, dock_depth, types_autorises, max_ships);
+            Quai *dock = createNewDock(dock_number, dock_size, dock_depth, authorized_ship, max_ships);
             addDock(port, dock);
         } else if (type == 'N'){
             int ship_id, ship_type, ship_status;

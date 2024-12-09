@@ -17,3 +17,8 @@ Navire * initializeShip(int id, TYPE_NAVIRE type, float capacity) {
 
     return new;
 }
+
+void showShipInfo(Navire * ship) {
+    if(!ship) return;
+    printf("%d %d %d %.2f\n", ship->id, ship->type, ship->status, ship->capacity);
+}

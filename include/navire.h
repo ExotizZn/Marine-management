@@ -24,5 +24,6 @@ typedef struct Navire {
 } Navire;
 
 Navire * initializeShip(int id, TYPE_NAVIRE type, float capacity);
+void showShipInfo(Navire * ship);
 
 #endif
