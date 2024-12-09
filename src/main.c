@@ -24,6 +24,10 @@ int main(int argc, char **argv) {
 void gestionEvenement(EvenementGfx evenement) {
     static TYPE_NAVIRE types_autorises[] = { NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER };
     static TYPE_NAVIRE types_autorises2[] = { NAVIRE_PASSAGERS, YATCH };
+    static TYPE_NAVIRE types_autorises3[] = { NAVIRE_PASSAGERS, NAVIRE_MARCHANDISE, PETROLIER, YATCH };
+    static TYPE_NAVIRE types_autorises4[] = { NAVIRE_PASSAGERS };
+    static TYPE_NAVIRE types_autorises5[] = { PETROLIER };
+    static TYPE_NAVIRE types_autorises6[] = { YATCH };
     static Port * port1 = NULL;
 
 	switch (evenement) {
@@ -89,6 +93,10 @@ void gestionEvenement(EvenementGfx evenement) {
                 case 'd':
                     addDock(port1, createNewDock(1, 30, 50, types_autorises, 42));
                     addDock(port1, createNewDock(2, 30, 50, types_autorises2, 42));
+                    addDock(port1, createNewDock(3, 30, 50, types_autorises3, 42));
+                    addDock(port1, createNewDock(4, 30, 50, types_autorises4, 42));
+                    addDock(port1, createNewDock(5, 30, 50, types_autorises5, 42));
+                    addDock(port1, createNewDock(6, 30, 50, types_autorises6, 42));
 
                     addShipToWaitingZone(port1, initializeShip(1, NAVIRE_PASSAGERS, 200));
                     addShipToWaitingZone(port1, initializeShip(2, NAVIRE_MARCHANDISE, 200));
@@ -110,6 +118,34 @@ void gestionEvenement(EvenementGfx evenement) {
                     dockingAShip(getDockById(port1, 2), initializeShip(14, YATCH, 200));
                     dockingAShip(getDockById(port1, 2), initializeShip(15, NAVIRE_PASSAGERS, 200));
                     dockingAShip(getDockById(port1, 2), initializeShip(16, YATCH, 200));
+
+                    dockingAShip(getDockById(port1, 3), initializeShip(14, YATCH, 200));
+                    dockingAShip(getDockById(port1, 3), initializeShip(15, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 3), initializeShip(16, YATCH, 200));
+                    dockingAShip(getDockById(port1, 3), initializeShip(9, PETROLIER, 200));
+                    dockingAShip(getDockById(port1, 3), initializeShip(10, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 3), initializeShip(11, PETROLIER, 200));
+
+                    dockingAShip(getDockById(port1, 4), initializeShip(14, YATCH, 200));
+                    dockingAShip(getDockById(port1, 4), initializeShip(15, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 4), initializeShip(16, YATCH, 200));
+                    dockingAShip(getDockById(port1, 4), initializeShip(9, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 4), initializeShip(10, PETROLIER, 200));
+                    dockingAShip(getDockById(port1, 4), initializeShip(11, NAVIRE_MARCHANDISE, 200));
+
+                    dockingAShip(getDockById(port1, 5), initializeShip(14, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 5), initializeShip(15, NAVIRE_MARCHANDISE, 200));
+                    dockingAShip(getDockById(port1, 5), initializeShip(16, YATCH, 200));
+                    dockingAShip(getDockById(port1, 5), initializeShip(9, NAVIRE_PASSAGERS, 200));
+                    dockingAShip(getDockById(port1, 5), initializeShip(10, PETROLIER, 200));
+                    dockingAShip(getDockById(port1, 5), initializeShip(11, NAVIRE_MARCHANDISE, 200));
+
+                    dockingAShip(getDockById(port1, 6), initializeShip(14, YATCH, 200));
+                    dockingAShip(getDockById(port1, 6), initializeShip(15, YATCH, 200));
+                    dockingAShip(getDockById(port1, 6), initializeShip(16, YATCH, 200));
+                    dockingAShip(getDockById(port1, 6), initializeShip(9, YATCH, 200));
+                    dockingAShip(getDockById(port1, 6), initializeShip(10, YATCH, 200));
+                    dockingAShip(getDockById(port1, 6), initializeShip(11, YATCH, 200));
                     break;
 			}
             break;
